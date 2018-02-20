@@ -4,7 +4,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include "mozilla/CDMProxy.h"
 #include "mozilla/ClearOnShutdown.h"
 #include "mozilla/dom/HTMLMediaElement.h"
 #include "mozilla/Preferences.h"
@@ -25,6 +24,10 @@
 
 #include <algorithm>
 #include <queue>
+
+#ifdef MOZ_EME
+#include "mozilla/CDMProxy.h"
+#endif
 
 using namespace mozilla::media;
 
@@ -346,8 +349,12 @@ MediaFormatReader::DecoderFactory::DoCreateDecoder(TrackType aTrack)
   if (!mOwner->mPlatform) {
     mOwner->mPlatform = new PDMFactory();
     if (mOwner->IsEncrypted()) {
+#ifdef MOZ_EME
       MOZ_ASSERT(mOwner->mCDMProxy);
       mOwner->mPlatform->SetCDMProxy(mOwner->mCDMProxy);
+#else
+      return MediaResult(NS_ERROR_DOM_MEDIA_FATAL_ERR, "EME not supported");
+#endif
     }
   }
 
@@ -577,6 +584,7 @@ MediaFormatReader::InitInternal()
   return NS_OK;
 }
 
+#ifdef MOZ_EME
 class DispatchKeyNeededEvent : public Runnable {
 public:
   DispatchKeyNeededEvent(AbstractMediaDecoder* aDecoder,
@@ -614,11 +622,16 @@ MediaFormatReader::SetCDMProxy(CDMProxy* aProxy)
   });
   OwnerThread()->Dispatch(r.forget());
 }
+#endif // MOZ_EME
 
 bool
 MediaFormatReader::IsWaitingOnCDMResource() {
   MOZ_ASSERT(OnTaskQueue());
+#ifdef MOZ_EME
   return IsEncrypted() && !mCDMProxy;
+#else
+  return false;
+#endif
 }
 
 RefPtr<MediaDecoderReader::MetadataPromise>
@@ -725,11 +738,13 @@ MediaFormatReader::OnDemuxerInitDone(nsresult)
 
   UniquePtr<EncryptionInfo> crypto = mDemuxer->GetCrypto();
   if (mDecoder && crypto && crypto->IsEncrypted()) {
+#ifdef MOZ_EME
     // Try and dispatch 'encrypted'. Won't go if ready state still HAVE_NOTHING.
     for (uint32_t i = 0; i < crypto->mInitDatas.Length(); i++) {
       NS_DispatchToMainThread(
         new DispatchKeyNeededEvent(mDecoder, crypto->mInitDatas[i].mInitData, crypto->mInitDatas[i].mType));
     }
+#endif // MOZ_EME
     mInfo.mCrypto = *crypto;
   }
 

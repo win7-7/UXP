@@ -9,6 +9,7 @@ GENERATED_WEBIDL_FILES = [
 ]
 
 PREPROCESSED_WEBIDL_FILES = [
+    'HTMLMediaElement.webidl',
     'Navigator.webidl',
     'Node.webidl',
     'Promise.webidl',
@@ -210,7 +211,6 @@ WEBIDL_FILES = [
     'HTMLLIElement.webidl',
     'HTMLLinkElement.webidl',
     'HTMLMapElement.webidl',
-    'HTMLMediaElement.webidl',
     'HTMLMenuElement.webidl',
     'HTMLMenuItemElement.webidl',
     'HTMLMetaElement.webidl',
@@ -286,15 +286,7 @@ WEBIDL_FILES = [
     'MediaDeviceInfo.webidl',
     'MediaDevices.webidl',
     'MediaElementAudioSourceNode.webidl',
-    'MediaEncryptedEvent.webidl',
     'MediaError.webidl',
-    'MediaKeyError.webidl',
-    'MediaKeyMessageEvent.webidl',
-    'MediaKeys.webidl',
-    'MediaKeySession.webidl',
-    'MediaKeysRequestStatus.webidl',
-    'MediaKeyStatusMap.webidl',
-    'MediaKeySystemAccess.webidl',
     'MediaList.webidl',
     'MediaQueryList.webidl',
     'MediaRecorder.webidl',
@@ -564,7 +556,6 @@ WEBIDL_FILES = [
     'WebKitCSSMatrix.webidl',
     'WebSocket.webidl',
     'WheelEvent.webidl',
-    'WidevineCDMManifest.webidl',
     'WifiOptions.webidl',
     'WindowOrWorkerGlobalScope.webidl',
     'WindowRoot.webidl',
@@ -776,6 +767,19 @@ if CONFIG['MOZ_BUILD_APP'] in ['xulrunner'] or CONFIG['MOZ_PHOENIX'] or CONFIG['
 if CONFIG['MOZ_BUILD_APP'] in ['mobile/android', 'xulrunner'] or CONFIG['MOZ_PHOENIX']:
     WEBIDL_FILES += [
         'External.webidl',
+    ]
+
+if CONFIG['MOZ_EME']:
+    WEBIDL_FILES += [
+        'MediaEncryptedEvent.webidl',
+        'MediaKeyError.webidl',
+        'MediaKeyMessageEvent.webidl',
+        'MediaKeys.webidl',
+        'MediaKeySession.webidl',
+        'MediaKeysRequestStatus.webidl',
+        'MediaKeyStatusMap.webidl',
+        'MediaKeySystemAccess.webidl',
+        'WidevineCDMManifest.webidl',
     ]
 
 if CONFIG['MOZ_B2G']:
