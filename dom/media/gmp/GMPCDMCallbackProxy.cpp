@@ -224,14 +224,25 @@ GMPCDMCallbackProxy::BatchedKeyStatusChangedInternal(const nsCString& aSessionId
   }
 }
 
+DecryptStatus
+ToDecryptStatus(GMPErr aError)
+{
+  switch (aError) {
+    case GMPNoErr: return Ok;
+    case GMPNoKeyErr: return NoKeyErr;
+    case GMPAbortedErr: return AbortedErr;
+    default: return GenericErr;
+  }
+}
+
 void
 GMPCDMCallbackProxy::Decrypted(uint32_t aId,
-                               DecryptStatus aResult,
+                               GMPErr aResult,
                                const nsTArray<uint8_t>& aDecryptedData)
 {
   MOZ_ASSERT(mProxy->IsOnOwnerThread());
 
-  mProxy->OnDecrypted(aId, aResult, aDecryptedData);
+  mProxy->OnDecrypted(aId, ToDecryptStatus(aResult), aDecryptedData);
 }
 
 void

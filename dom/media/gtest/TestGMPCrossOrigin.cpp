@@ -22,8 +22,6 @@
 #include "nsNSSComponent.h"
 #include "mozilla/DebugOnly.h"
 #include "GMPDeviceBinding.h"
-#include "mozilla/dom/MediaKeyStatusMapBinding.h" // For MediaKeyStatus
-#include "mozilla/dom/MediaKeyMessageEventBinding.h" // For MediaKeyMessageType
 
 #if defined(XP_WIN)
 #include "mozilla/WindowsVersion.h"
@@ -1357,7 +1355,7 @@ class GMPStorageTest : public GMPDecryptorProxyCallback
   }
 
   void SessionMessage(const nsCString& aSessionId,
-                      mozilla::dom::MediaKeyMessageType aMessageType,
+                      GMPSessionMessageType aMessageType,
                       const nsTArray<uint8_t>& aMessage) override
   {
     MonitorAutoLock mon(mMonitor);
@@ -1394,7 +1392,7 @@ class GMPStorageTest : public GMPDecryptorProxyCallback
                      nsresult aException,
                      const nsCString& aSessionId) override { }
   void ExpirationChange(const nsCString& aSessionId,
-                        UnixTime aExpiryTime) override {}
+                        GMPTimestamp aExpiryTime) override {}
   void SessionClosed(const nsCString& aSessionId) override {}
   void SessionError(const nsCString& aSessionId,
                     nsresult aException,

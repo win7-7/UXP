@@ -7,16 +7,13 @@
 #ifndef CDMCaps_h_
 #define CDMCaps_h_
 
-#include "gmp-decryption.h"
+#include "nsString.h"
+#include "mozilla/Monitor.h"
 #include "nsIThread.h"
 #include "nsTArray.h"
-#include "nsString.h"
-#include "SamplesWaitingForKey.h"
-
-#include "mozilla/Monitor.h"
 #include "mozilla/Attributes.h"
-#include "mozilla/dom/MediaKeyStatusMapBinding.h" // For MediaKeyStatus
-#include "mozilla/dom/BindingDeclarations.h" // For Optional
+#include "SamplesWaitingForKey.h"
+#include "gmp-decryption.h"
 
 namespace mozilla {
 
@@ -30,7 +27,7 @@ public:
   struct KeyStatus {
     KeyStatus(const CencKeyId& aId,
               const nsString& aSessionId,
-              dom::MediaKeyStatus aStatus)
+              GMPMediaKeyStatus aStatus)
       : mId(aId)
       , mSessionId(aSessionId)
       , mStatus(aStatus)
@@ -47,7 +44,7 @@ public:
 
     CencKeyId mId;
     nsString mSessionId;
-    dom::MediaKeyStatus mStatus;
+    GMPMediaKeyStatus mStatus;
   };
 
   // Locks the CDMCaps. It must be locked to access its shared state.
@@ -61,9 +58,7 @@ public:
 
     // Returns true if key status changed,
     // i.e. the key status changed from usable to expired.
-    bool SetKeyStatus(const CencKeyId& aKeyId,
-                      const nsString& aSessionId,
-                      const dom::Optional<dom::MediaKeyStatus>& aStatus);
+    bool SetKeyStatus(const CencKeyId& aKeyId, const nsString& aSessionId, GMPMediaKeyStatus aStatus);
 
     void GetKeyStatusesForSession(const nsAString& aSessionId,
                                   nsTArray<KeyStatus>& aOutKeyStatuses);

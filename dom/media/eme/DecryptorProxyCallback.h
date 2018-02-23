@@ -6,13 +6,8 @@
 #ifndef DecryptorProxyCallback_h_
 #define DecryptorProxyCallback_h_
 
-#include "mozilla/dom/MediaKeyStatusMapBinding.h" // For MediaKeyStatus
-#include "mozilla/dom/MediaKeyMessageEventBinding.h" // For MediaKeyMessageType
-#include "mozilla/CDMProxy.h"
-
 class DecryptorProxyCallback {
 public:
-
   virtual ~DecryptorProxyCallback() {}
 
   virtual void SetDecryptorId(uint32_t aId) = 0;
@@ -30,11 +25,11 @@ public:
                              const nsCString& aSessionId) = 0;
 
   virtual void SessionMessage(const nsCString& aSessionId,
-                              mozilla::dom::MediaKeyMessageType aMessageType,
+                              GMPSessionMessageType aMessageType,
                               const nsTArray<uint8_t>& aMessage) = 0;
 
   virtual void ExpirationChange(const nsCString& aSessionId,
-                                mozilla::UnixTime aExpiryTime) = 0;
+                                GMPTimestamp aExpiryTime) = 0;
 
   virtual void SessionClosed(const nsCString& aSessionId) = 0;
 

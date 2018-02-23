@@ -33,11 +33,11 @@ public:
                      const nsCString& aSessionId) override;
 
   void SessionMessage(const nsCString& aSessionId,
-                      dom::MediaKeyMessageType aMessageType,
+                      GMPSessionMessageType aMessageType,
                       const nsTArray<uint8_t>& aMessage) override;
 
   void ExpirationChange(const nsCString& aSessionId,
-                        UnixTime aExpiryTime) override;
+                        GMPTimestamp aExpiryTime) override;
 
   void SessionClosed(const nsCString& aSessionId) override;
 

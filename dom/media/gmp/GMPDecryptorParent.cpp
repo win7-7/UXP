@@ -277,18 +277,6 @@ GMPDecryptorParent::RecvRejectPromise(const uint32_t& aPromiseId,
   return true;
 }
 
-
-static dom::MediaKeyMessageType
-ToMediaKeyMessageType(GMPSessionMessageType aMessageType) {
-  switch (aMessageType) {
-    case kGMPLicenseRequest: return dom::MediaKeyMessageType::License_request;
-    case kGMPLicenseRenewal: return dom::MediaKeyMessageType::License_renewal;
-    case kGMPLicenseRelease: return dom::MediaKeyMessageType::License_release;
-    case kGMPIndividualizationRequest: return dom::MediaKeyMessageType::Individualization_request;
-    default: return dom::MediaKeyMessageType::License_request;
-  };
-};
-
 bool
 GMPDecryptorParent::RecvSessionMessage(const nsCString& aSessionId,
                                        const GMPSessionMessageType& aMessageType,
@@ -301,7 +289,7 @@ GMPDecryptorParent::RecvSessionMessage(const nsCString& aSessionId,
     NS_WARNING("Trying to use a dead GMP decrypter!");
     return false;
   }
-  mCallback->SessionMessage(aSessionId, ToMediaKeyMessageType(aMessageType), aMessage);
+  mCallback->SessionMessage(aSessionId, aMessageType, aMessage);
   return true;
 }
 
@@ -355,20 +343,6 @@ GMPDecryptorParent::RecvSessionError(const nsCString& aSessionId,
   return true;
 }
 
-static dom::MediaKeyStatus
-ToMediaKeyStatus(GMPMediaKeyStatus aStatus) {
-  switch (aStatus) {
-    case kGMPUsable: return dom::MediaKeyStatus::Usable;
-    case kGMPExpired: return dom::MediaKeyStatus::Expired;
-    case kGMPOutputDownscaled: return dom::MediaKeyStatus::Output_downscaled;
-    case kGMPOutputRestricted: return dom::MediaKeyStatus::Output_restricted;
-    case kGMPInternalError: return dom::MediaKeyStatus::Internal_error;
-    case kGMPReleased: return dom::MediaKeyStatus::Released;
-    case kGMPStatusPending: return dom::MediaKeyStatus::Status_pending;
-    default: return dom::MediaKeyStatus::Internal_error;
-  }
-}
-
 bool
 GMPDecryptorParent::RecvBatchedKeyStatusChanged(const nsCString& aSessionId,
                                                 InfallibleTArray<GMPKeyInformation>&& aKeyInfos)
@@ -418,7 +392,7 @@ GMPDecryptorParent::RecvDecrypted(const uint32_t& aId,
     NS_WARNING("Trying to use a dead GMP decrypter!");
     return false;
   }
-  mCallback->Decrypted(aId, ToDecryptStatus(aErr), aBuffer);
+  mCallback->Decrypted(aId, aErr, aBuffer);
   return true;
 }
 
