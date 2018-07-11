@@ -739,8 +739,12 @@ WebGLContext::CreateAndInitGL(bool forceEnabled,
 
     //////
 
-    if (tryANGLE)
-        return CreateAndInitGLWith(CreateGLWithANGLE, baseCaps, flags, out_failReasons);
+    if (tryANGLE) {
+        // Force enable alpha channel to make sure ANGLE use correct framebuffer format
+        gl::SurfaceCaps& angleCaps = const_cast<gl::SurfaceCaps&>(baseCaps);
+        angleCaps.alpha = true;
+        return CreateAndInitGLWith(CreateGLWithANGLE, angleCaps, flags, out_failReasons);
+    }
 
     //////
 
