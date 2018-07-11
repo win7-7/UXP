@@ -504,22 +504,6 @@ public:
         return ret;
     }
 
-    void fANGLEPlatformInitialize(angle::Platform* platform)
-    {
-        MOZ_ASSERT(mSymbols.fANGLEPlatformInitialize);
-        BEFORE_GL_CALL;
-        mSymbols.fANGLEPlatformInitialize(platform);
-        AFTER_GL_CALL;
-    }
-
-    void fANGLEPlatformShutdown()
-    {
-        MOZ_ASSERT(mSymbols.fANGLEPlatformShutdown);
-        BEFORE_GL_CALL;
-        mSymbols.fANGLEPlatformShutdown();
-        AFTER_GL_CALL;
-    }
-
     EGLDisplay Display() {
         MOZ_ASSERT(mInitialized);
         return mEGLDisplay;
@@ -645,10 +629,6 @@ public:
         typedef EGLint (GLAPIENTRY * pfnDupNativeFenceFDANDROID)(EGLDisplay dpy, EGLSync sync);
         pfnDupNativeFenceFDANDROID fDupNativeFenceFDANDROID;
 
-        typedef void (GLAPIENTRY * pfnANGLEPlatformInitialize)(angle::Platform* platform);
-        pfnANGLEPlatformInitialize fANGLEPlatformInitialize;
-        typedef void (GLAPIENTRY * pfnANGLEPlatformShutdown)();
-        pfnANGLEPlatformShutdown fANGLEPlatformShutdown;
     } mSymbols;
 
 #ifdef DEBUG

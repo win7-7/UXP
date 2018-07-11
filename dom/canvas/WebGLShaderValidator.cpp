@@ -132,7 +132,7 @@ WebGLContext::CreateShaderValidator(GLenum shaderType) const
 
     ShBuiltInResources resources;
     memset(&resources, 0, sizeof(resources));
-    ShInitBuiltInResources(&resources);
+    sh::InitBuiltInResources(&resources);
 
     resources.HashFunction = webgl::IdentifierHashFunc;
 
@@ -188,7 +188,7 @@ ShaderValidator::Create(GLenum shaderType, ShShaderSpec spec,
                         const ShBuiltInResources& resources,
                         ShCompileOptions compileOptions)
 {
-    ShHandle handle = ShConstructCompiler(shaderType, spec, outputLanguage, &resources);
+    ShHandle handle = sh::ConstructCompiler(shaderType, spec, outputLanguage, &resources);
     if (!handle)
         return nullptr;
 
@@ -197,7 +197,7 @@ ShaderValidator::Create(GLenum shaderType, ShShaderSpec spec,
 
 ShaderValidator::~ShaderValidator()
 {
-    ShDestruct(mHandle);
+    sh::Destruct(mHandle);
 }
 
 bool
@@ -209,7 +209,7 @@ ShaderValidator::ValidateAndTranslate(const char* source)
     const char* const parts[] = {
         source
     };
-    return ShCompile(mHandle, parts, ArrayLength(parts), mCompileOptions);
+    return sh::Compile(mHandle, parts, ArrayLength(parts), mCompileOptions);
 }
 
 void
@@ -217,7 +217,7 @@ ShaderValidator::GetInfoLog(nsACString* out) const
 {
     MOZ_ASSERT(mHasRun);
 
-    const std::string &log = ShGetInfoLog(mHandle);
+    const std::string &log = sh::GetInfoLog(mHandle);
     out->Assign(log.data(), log.length());
 }
 
@@ -226,7 +226,7 @@ ShaderValidator::GetOutput(nsACString* out) const
 {
     MOZ_ASSERT(mHasRun);
 
-    const std::string &output = ShGetObjectCode(mHandle);
+    const std::string &output = sh::GetObjectCode(mHandle);
     out->Assign(output.data(), output.length());
 }
 
@@ -246,19 +246,19 @@ ShaderValidator::CanLinkTo(const ShaderValidator* prev, nsCString* const out_log
         return false;
     }
 
-    const auto shaderVersion = ShGetShaderVersion(mHandle);
-    if (ShGetShaderVersion(prev->mHandle) != shaderVersion) {
+    const auto shaderVersion = sh::GetShaderVersion(mHandle);
+    if (sh::GetShaderVersion(prev->mHandle) != shaderVersion) {
         nsPrintfCString error("Vertex shader version %d does not match"
                               " fragment shader version %d.",
-                              ShGetShaderVersion(prev->mHandle),
-                              ShGetShaderVersion(mHandle));
+                              sh::GetShaderVersion(prev->mHandle),
+                              sh::GetShaderVersion(mHandle));
         *out_log = error;
         return false;
     }
 
     {
-        const std::vector<sh::Uniform>* vertPtr = ShGetUniforms(prev->mHandle);
-        const std::vector<sh::Uniform>* fragPtr = ShGetUniforms(mHandle);
+        const std::vector<sh::Uniform>* vertPtr = sh::GetUniforms(prev->mHandle);
+        const std::vector<sh::Uniform>* fragPtr = sh::GetUniforms(mHandle);
         if (!vertPtr || !fragPtr) {
             nsPrintfCString error("Could not create uniform list.");
             *out_log = error;
@@ -309,8 +309,8 @@ ShaderValidator::CanLinkTo(const ShaderValidator* prev, nsCString* const out_log
         }
     }
 
-    const auto& vertVaryings = ShGetVaryings(prev->mHandle);
-    const auto& fragVaryings = ShGetVaryings(mHandle);
+    const auto& vertVaryings = sh::GetVaryings(prev->mHandle);
+    const auto& fragVaryings = sh::GetVaryings(mHandle);
     if (!vertVaryings || !fragVaryings) {
         nsPrintfCString error("Could not create varying list.");
         *out_log = error;
@@ -362,7 +362,7 @@ ShaderValidator::CanLinkTo(const ShaderValidator* prev, nsCString* const out_log
             }
         }
 
-        if (!ShCheckVariablesWithinPackingLimits(mMaxVaryingVectors,
+        if (!sh::CheckVariablesWithinPackingLimits(mMaxVaryingVectors,
                                                  staticUseVaryingList))
         {
             *out_log = "Statically used varyings do not fit within packing limits. (see"
@@ -424,7 +424,7 @@ ShaderValidator::CalcNumSamplerUniforms() const
 {
     size_t accum = 0;
 
-    const std::vector<sh::Uniform>& uniforms = *ShGetUniforms(mHandle);
+    const std::vector<sh::Uniform>& uniforms = *sh::GetUniforms(mHandle);
 
     for (auto itr = uniforms.begin(); itr != uniforms.end(); ++itr) {
         GLenum type = itr->type;
@@ -441,7 +441,7 @@ ShaderValidator::CalcNumSamplerUniforms() const
 size_t
 ShaderValidator::NumAttributes() const
 {
-  return ShGetAttributes(mHandle)->size();
+  return sh::GetAttributes(mHandle)->size();
 }
 
 // Attribs cannot be structs or arrays, and neither can vertex inputs in ES3.
@@ -450,7 +450,7 @@ bool
 ShaderValidator::FindAttribUserNameByMappedName(const std::string& mappedName,
                                                 const std::string** const out_userName) const
 {
-    const std::vector<sh::Attribute>& attribs = *ShGetAttributes(mHandle);
+    const std::vector<sh::Attribute>& attribs = *sh::GetAttributes(mHandle);
     for (auto itr = attribs.begin(); itr != attribs.end(); ++itr) {
         if (itr->mappedName == mappedName) {
             *out_userName = &(itr->name);
@@ -465,7 +465,7 @@ bool
 ShaderValidator::FindAttribMappedNameByUserName(const std::string& userName,
                                                 const std::string** const out_mappedName) const
 {
-    const std::vector<sh::Attribute>& attribs = *ShGetAttributes(mHandle);
+    const std::vector<sh::Attribute>& attribs = *sh::GetAttributes(mHandle);
     for (auto itr = attribs.begin(); itr != attribs.end(); ++itr) {
         if (itr->name == userName) {
             *out_mappedName = &(itr->mappedName);
@@ -481,7 +481,7 @@ ShaderValidator::FindVaryingByMappedName(const std::string& mappedName,
                                          std::string* const out_userName,
                                          bool* const out_isArray) const
 {
-    const std::vector<sh::Varying>& varyings = *ShGetVaryings(mHandle);
+    const std::vector<sh::Varying>& varyings = *sh::GetVaryings(mHandle);
     for (auto itr = varyings.begin(); itr != varyings.end(); ++itr) {
         const sh::ShaderVariable* found;
         if (!itr->findInfoByMappedName(mappedName, &found, out_userName))
@@ -498,7 +498,7 @@ bool
 ShaderValidator::FindVaryingMappedNameByUserName(const std::string& userName,
                                                  const std::string** const out_mappedName) const
 {
-    const std::vector<sh::Varying>& attribs = *ShGetVaryings(mHandle);
+    const std::vector<sh::Varying>& attribs = *sh::GetVaryings(mHandle);
     for (auto itr = attribs.begin(); itr != attribs.end(); ++itr) {
         if (itr->name == userName) {
             *out_mappedName = &(itr->mappedName);
@@ -514,7 +514,7 @@ ShaderValidator::FindUniformByMappedName(const std::string& mappedName,
                                          std::string* const out_userName,
                                          bool* const out_isArray) const
 {
-    const std::vector<sh::Uniform>& uniforms = *ShGetUniforms(mHandle);
+    const std::vector<sh::Uniform>& uniforms = *sh::GetUniforms(mHandle);
     for (auto itr = uniforms.begin(); itr != uniforms.end(); ++itr) {
         const sh::ShaderVariable* found;
         if (!itr->findInfoByMappedName(mappedName, &found, out_userName))
@@ -526,7 +526,7 @@ ShaderValidator::FindUniformByMappedName(const std::string& mappedName,
 
     const size_t dotPos = mappedName.find(".");
 
-    const std::vector<sh::InterfaceBlock>& interfaces = *ShGetInterfaceBlocks(mHandle);
+    const std::vector<sh::InterfaceBlock>& interfaces = *sh::GetInterfaceBlocks(mHandle);
     for (const auto& interface : interfaces) {
 
         std::string mappedFieldName;
@@ -574,7 +574,7 @@ bool
 ShaderValidator::UnmapUniformBlockName(const nsACString& baseMappedName,
                                        nsCString* const out_baseUserName) const
 {
-    const std::vector<sh::InterfaceBlock>& interfaces = *ShGetInterfaceBlocks(mHandle);
+    const std::vector<sh::InterfaceBlock>& interfaces = *sh::GetInterfaceBlocks(mHandle);
     for (const auto& interface : interfaces) {
         const nsDependentCString interfaceMappedName(interface.mappedName.data(),
                                                      interface.mappedName.size());
@@ -590,7 +590,7 @@ ShaderValidator::UnmapUniformBlockName(const nsACString& baseMappedName,
 void
 ShaderValidator::EnumerateFragOutputs(std::map<nsCString, const nsCString> &out_FragOutputs) const
 {
-    const auto* fragOutputs = ShGetOutputVariables(mHandle);
+    const auto* fragOutputs = sh::GetOutputVariables(mHandle);
 
     if (fragOutputs) {
         for (const auto& fragOutput : *fragOutputs) {
