@@ -120,8 +120,6 @@ public:
     }
 
     void ClearSymbols() {
-        mSymbols.fANGLEPlatformInitialize = nullptr;
-        mSymbols.fANGLEPlatformShutdown = nullptr;
         mSymbols.fGetDisplay = nullptr;
         mSymbols.fGetPlatformDisplayEXT = nullptr;
         mSymbols.fTerminate = nullptr;
