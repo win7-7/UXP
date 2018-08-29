@@ -18,6 +18,7 @@
 #include "gmp-video-decode.h"
 #include "gmp-video-encode.h"
 #include "GMPPlatform.h"
+#include "mozilla/dom/CrashReporterChild.h"
 #include "mozilla/ipc/ProcessChild.h"
 #include "GMPUtils.h"
 #include "prio.h"

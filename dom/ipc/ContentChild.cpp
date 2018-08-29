@@ -11,6 +11,7 @@
 #include "ContentChild.h"
 
 #include "BlobChild.h"
+#include "CrashReporterChild.h"
 #include "GeckoProfiler.h"
 #include "TabChild.h"
 #include "HandlerServiceChild.h"
@@ -533,7 +534,8 @@ ContentChild::Init(MessageLoop* aIOLoop,
   NS_ASSERTION(!sSingleton, "only one ContentChild per child");
 
   // Once we start sending IPC messages, we need the thread manager to be
-  // initialized so we can deal with the responses. Do that here.
+  // initialized so we can deal with the responses. Do that here before we
+  // try to construct the crash reporter.
   nsresult rv = nsThreadManager::get().Init();
   if (NS_WARN_IF(NS_FAILED(rv))) {
     return false;

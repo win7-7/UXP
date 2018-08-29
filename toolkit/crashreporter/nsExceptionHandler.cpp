@@ -10,6 +10,7 @@
 #include "nsDirectoryServiceDefs.h"
 #include "nsDataHashtable.h"
 #include "mozilla/ArrayUtils.h"
+#include "mozilla/dom/CrashReporterChild.h"
 #include "mozilla/ipc/CrashReporterClient.h"
 #include "mozilla/Services.h"
 #include "nsIObserverService.h"
