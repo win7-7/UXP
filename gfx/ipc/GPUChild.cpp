@@ -14,6 +14,7 @@
 #if defined(XP_WIN)
 # include "mozilla/gfx/DeviceManagerDx.h"
 #endif
+#include "mozilla/ipc/CrashReporterHost.h"
 
 namespace mozilla {
 namespace gfx {
@@ -114,6 +115,12 @@ GPUChild::RecvGraphicsError(const nsCString& aError)
     message << "GP+" << aError.get();
     lf->UpdateStringsVector(message.str());
   }
+  return true;
+}
+
+bool
+GPUChild::RecvInitCrashReporter(Shmem&& aShmem)
+{
   return true;
 }
 
