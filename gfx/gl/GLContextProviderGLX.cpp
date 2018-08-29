@@ -35,6 +35,8 @@
 #include "GLScreenBuffer.h"
 #include "gfxPrefs.h"
 
+#include "gfxCrashReporterUtils.h"
+
 #ifdef MOZ_WIDGET_GTK
 #include "gfxPlatformGtk.h"
 #endif
@@ -90,11 +92,13 @@ GLXLibrary::EnsureInitialized()
         libGLfilename = "libGL.so.1";
 #endif
 
+        ScopedGfxFeatureReporter reporter(libGLfilename, forceFeatureReport);
         mOGLLibrary = PR_LoadLibrary(libGLfilename);
         if (!mOGLLibrary) {
             NS_WARNING("Couldn't load OpenGL shared library.");
             return false;
         }
+        reporter.SetSuccessful();
     }
 
     if (gfxEnv::GlxDebug()) {

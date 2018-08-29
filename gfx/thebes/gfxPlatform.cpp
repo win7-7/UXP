@@ -18,6 +18,7 @@
 #include "mozilla/Logging.h"
 #include "mozilla/Services.h"
 
+#include "gfxCrashReporterUtils.h"
 #include "gfxPlatform.h"
 #include "gfxPrefs.h"
 #include "gfxEnv.h"
@@ -650,6 +651,7 @@ gfxPlatform::Init()
                                gfxPrefs::CanvasAzureAccelerated(),
                                gfxPrefs::DisableGralloc(),
                                gfxPrefs::ForceShmemTiles());
+      ScopedGfxFeatureReporter::AppNote(forcedPrefs);
     }
 
     InitMoz2DLogging();

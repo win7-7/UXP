@@ -12,6 +12,7 @@
 #include "GLUploadHelpers.h"
 #include "Layers.h"                     // for WriteSnapshotToDumpFile
 #include "LayerScope.h"                 // for LayerScope
+#include "gfxCrashReporterUtils.h"      // for ScopedGfxFeatureReporter
 #include "gfxEnv.h"                     // for gfxEnv
 #include "gfxPlatform.h"                // for gfxPlatform
 #include "gfxPrefs.h"                   // for gfxPrefs
@@ -224,6 +225,8 @@ CompositorOGL::CleanupResources()
 bool
 CompositorOGL::Initialize(nsCString* const out_failureReason)
 {
+  ScopedGfxFeatureReporter reporter("GL Layers");
+
   // Do not allow double initialization
   MOZ_ASSERT(mGLContext == nullptr, "Don't reinitialize CompositorOGL");
 
@@ -420,6 +423,8 @@ CompositorOGL::Initialize(nsCString* const out_failureReason)
       msg += NS_LITERAL_STRING("TEXTURE_RECTANGLE");
     console->LogStringMessage(msg.get());
   }
+
+  reporter.SetSuccessful();
 
   return true;
 }

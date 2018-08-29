@@ -11,6 +11,8 @@
 #include "gfxPlatform.h"
 #include "gfxWindowsSurface.h"
 
+#include "gfxCrashReporterUtils.h"
+
 #include "prenv.h"
 
 #include "mozilla/Preferences.h"
@@ -96,6 +98,8 @@ WGLLibrary::EnsureInitialized()
 {
     if (mInitialized)
         return true;
+
+    mozilla::ScopedGfxFeatureReporter reporter("WGL");
 
     std::string libGLFilename = "Opengl32.dll";
     // SU_SPIES_DIRECTORY is for AMD CodeXL/gDEBugger
@@ -264,6 +268,7 @@ WGLLibrary::EnsureInitialized()
 
     mInitialized = true;
 
+    reporter.SetSuccessful();
     return true;
 }
 

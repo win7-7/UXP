@@ -19,6 +19,7 @@
 #include "GLReadTexImageHelper.h"
 #include "GLScreenBuffer.h"
 
+#include "gfxCrashReporterUtils.h"
 #include "gfxEnv.h"
 #include "gfxUtils.h"
 #include "GLContextProvider.h"
@@ -522,6 +523,8 @@ GLContext::InitWithPrefix(const char* prefix, bool trygl)
     MOZ_RELEASE_ASSERT(!mSymbols.fBindFramebuffer,
                        "GFX: InitWithPrefix should only be called once.");
 
+    ScopedGfxFeatureReporter reporter("GL Context");
+
     if (!InitWithPrefixImpl(prefix, trygl)) {
         // If initialization fails, zero the symbols to avoid hard-to-understand bugs.
         mSymbols.Zero();
@@ -529,6 +532,7 @@ GLContext::InitWithPrefix(const char* prefix, bool trygl)
         return false;
     }
 
+    reporter.SetSuccessful();
     return true;
 }
 

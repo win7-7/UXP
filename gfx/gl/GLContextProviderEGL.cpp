@@ -79,6 +79,7 @@
 #endif
 
 #include "gfxASurface.h"
+#include "gfxCrashReporterUtils.h"
 #include "gfxFailure.h"
 #include "gfxPlatform.h"
 #include "gfxUtils.h"

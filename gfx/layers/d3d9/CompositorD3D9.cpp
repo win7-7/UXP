@@ -15,6 +15,7 @@
 #include "gfxFailure.h"
 #include "mozilla/layers/LayerManagerComposite.h"
 #include "gfxPrefs.h"
+#include "gfxCrashReporterUtils.h"
 #include "gfxUtils.h"
 #include "mozilla/gfx/DeviceManagerDx.h"
 #include "mozilla/layers/CompositorBridgeParent.h"
@@ -42,6 +43,8 @@ CompositorD3D9::~CompositorD3D9()
 bool
 CompositorD3D9::Initialize(nsCString* const out_failureReason)
 {
+  ScopedGfxFeatureReporter reporter("D3D9 Layers");
+
   mDeviceManager = DeviceManagerD3D9::Get();
   if (!mDeviceManager) {
     *out_failureReason = "FEATURE_FAILURE_D3D9_DEVICE_MANAGER";
@@ -58,6 +61,8 @@ CompositorD3D9::Initialize(nsCString* const out_failureReason)
     *out_failureReason = "FEATURE_FAILURE_D3D9_INIT_COMPOSITOR";
     return false;
   }
+
+  reporter.SetSuccessful();
 
   return true;
 }

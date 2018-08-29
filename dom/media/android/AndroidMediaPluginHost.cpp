@@ -12,6 +12,7 @@
 #include "nsXPCOMStrings.h"
 #include "nsISeekableStream.h"
 #include "nsIGfxInfo.h"
+#include "gfxCrashReporterUtils.h"
 #include "prmem.h"
 #include "prlink.h"
 #include "AndroidMediaResourceServer.h"

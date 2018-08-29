@@ -19,6 +19,7 @@
 #include "nsWindowsHelpers.h"
 #include "gfxPrefs.h"
 #include "gfxConfig.h"
+#include "gfxCrashReporterUtils.h"
 #include "gfxUtils.h"
 #include "mozilla/gfx/StackArray.h"
 #include "mozilla/Services.h"
@@ -180,6 +181,8 @@ CompositorD3D11::~CompositorD3D11()
 bool
 CompositorD3D11::Initialize(nsCString* const out_failureReason)
 {
+  ScopedGfxFeatureReporter reporter("D3D11 Layers");
+
   MOZ_ASSERT(gfxConfig::IsEnabled(Feature::D3D11_COMPOSITING));
 
   HRESULT hr;
@@ -412,6 +415,7 @@ CompositorD3D11::Initialize(nsCString* const out_failureReason)
 
   mAllowPartialPresents = CanUsePartialPresents(mDevice);
 
+  reporter.SetSuccessful();
   return true;
 }
 
