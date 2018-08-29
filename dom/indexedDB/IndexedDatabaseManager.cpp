@@ -153,7 +153,7 @@ const char kPrefMaxSerilizedMsgSize[] = IDB_PREF_BRANCH_ROOT "maxSerializedMsgSi
 const char kPrefLoggingEnabled[] = IDB_PREF_LOGGING_BRANCH_ROOT "enabled";
 const char kPrefLoggingDetails[] = IDB_PREF_LOGGING_BRANCH_ROOT "details";
 
-#if defined(DEBUG)
+#if defined(DEBUG) || defined(MOZ_ENABLE_PROFILER_SPS)
 const char kPrefLoggingProfiler[] =
   IDB_PREF_LOGGING_BRANCH_ROOT "profiler-marks";
 #endif
@@ -415,7 +415,10 @@ IndexedDatabaseManager::Init()
 
   Preferences::RegisterCallback(LoggingModePrefChangedCallback,
                                 kPrefLoggingDetails);
-
+#ifdef MOZ_ENABLE_PROFILER_SPS
+  Preferences::RegisterCallback(LoggingModePrefChangedCallback,
+                                kPrefLoggingProfiler);
+#endif
   Preferences::RegisterCallbackAndCall(LoggingModePrefChangedCallback,
                                        kPrefLoggingEnabled);
 
@@ -476,6 +479,10 @@ IndexedDatabaseManager::Destroy()
 
   Preferences::UnregisterCallback(LoggingModePrefChangedCallback,
                                   kPrefLoggingDetails);
+#ifdef MOZ_ENABLE_PROFILER_SPS
+  Preferences::UnregisterCallback(LoggingModePrefChangedCallback,
+                                  kPrefLoggingProfiler);
+#endif
   Preferences::UnregisterCallback(LoggingModePrefChangedCallback,
                                   kPrefLoggingEnabled);
 
@@ -1053,13 +1060,15 @@ IndexedDatabaseManager::LoggingModePrefChangedCallback(
   }
 
   bool useProfiler =
-#if defined(DEBUG)
+#if defined(DEBUG) || defined(MOZ_ENABLE_PROFILER_SPS)
     Preferences::GetBool(kPrefLoggingProfiler);
+#if !defined(MOZ_ENABLE_PROFILER_SPS)
   if (useProfiler) {
     NS_WARNING("IndexedDB cannot create profiler marks because this build does "
                "not have profiler extensions enabled!");
     useProfiler = false;
   }
+#endif
 #else
     false;
 #endif

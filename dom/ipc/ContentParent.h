@@ -42,6 +42,9 @@ class nsIWidget;
 
 namespace mozilla {
 class PRemoteSpellcheckEngineParent;
+#ifdef MOZ_ENABLE_PROFILER_SPS
+class ProfileGatherer;
+#endif
 
 namespace embedding {
 class PrintingParent;
@@ -1124,6 +1127,9 @@ private:
 
   PProcessHangMonitorParent* mHangMonitorActor;
 
+#ifdef MOZ_ENABLE_PROFILER_SPS
+  RefPtr<mozilla::ProfileGatherer> mGatherer;
+#endif
   nsCString mProfile;
 
   UniquePtr<gfx::DriverCrashGuard> mDriverCrashGuard;
