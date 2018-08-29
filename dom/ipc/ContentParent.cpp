@@ -4475,6 +4475,13 @@ ContentParent::RecvCreateWindow(PBrowserParent* aThisTab,
 }
 
 bool
+ContentParent::RecvProfile(const nsCString& aProfile)
+{
+  /*** STUB ***/
+  return true;
+}
+
+bool
 ContentParent::RecvGetGraphicsDeviceInitData(ContentDeviceData* aOut)
 {
   gfxPlatform::GetPlatform()->BuildContentDeviceData(aOut);
@@ -4558,6 +4565,12 @@ ContentParent::RecvNotifyBenchmarkResult(const nsString& aCodecName,
                          VP9Benchmark::sBenchmarkVersionID);
   }
   return true;
+}
+
+void
+ContentParent::StartProfiler(nsIProfilerStartParams* aParams)
+{
+  /*** STUB ***/
 }
 
 bool

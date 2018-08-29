@@ -454,6 +454,14 @@ public:
 
   virtual bool RecvUpdateWindow(const uintptr_t& aChildId) override;
 
+  virtual bool RecvStartProfiler(const ProfilerInitParams& params) override;
+
+  virtual bool RecvPauseProfiler(const bool& aPause) override;
+
+  virtual bool RecvStopProfiler() override;
+
+  virtual bool RecvGatherProfile() override;
+
   virtual bool RecvDomainSetChanged(const uint32_t& aSetType,
                                     const uint32_t& aChangeType,
                                     const OptionalURIParams& aDomain) override;
