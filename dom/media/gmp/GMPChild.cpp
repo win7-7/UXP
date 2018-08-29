@@ -26,6 +26,7 @@
 #include "widevine-adapter/WidevineAdapter.h"
 
 using namespace mozilla::ipc;
+using mozilla::dom::CrashReporterChild;
 
 static const int MAX_VOUCHER_LENGTH = 500000;
 
@@ -328,6 +329,19 @@ GMPChild::ProcessingError(Result aCode, const char* aReason)
     default:
       MOZ_CRASH("not reached");
   }
+}
+
+mozilla::dom::PCrashReporterChild*
+GMPChild::AllocPCrashReporterChild(const NativeThreadId& aThread)
+{
+  return new CrashReporterChild();
+}
+
+bool
+GMPChild::DeallocPCrashReporterChild(PCrashReporterChild* aCrashReporter)
+{
+  delete aCrashReporter;
+  return true;
 }
 
 PGMPTimerChild*

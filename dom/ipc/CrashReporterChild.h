@@ -7,9 +7,25 @@
 #ifndef mozilla_dom_CrashReporterChild_h
 #define mozilla_dom_CrashReporterChild_h
 
+#include "mozilla/dom/PCrashReporterChild.h"
+
 namespace mozilla {
 namespace dom {
-  /*** STUB ***/
+
+class CrashReporterChild :
+  public PCrashReporterChild
+{
+public:
+  CrashReporterChild() {
+    MOZ_COUNT_CTOR(CrashReporterChild);
+  }
+  ~CrashReporterChild() {
+    MOZ_COUNT_DTOR(CrashReporterChild);
+  }
+
+  static PCrashReporterChild* GetCrashReporter();
+};
+
 } // namespace dom
 } // namespace mozilla
 

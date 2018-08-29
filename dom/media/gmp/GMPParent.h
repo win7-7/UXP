@@ -168,6 +168,9 @@ private:
   RefPtr<GenericPromise> ReadChromiumManifestFile(nsIFile* aFile); // GMP thread.
   void ActorDestroy(ActorDestroyReason aWhy) override;
 
+  PCrashReporterParent* AllocPCrashReporterParent(const NativeThreadId& aThread) override;
+  bool DeallocPCrashReporterParent(PCrashReporterParent* aCrashReporter) override;
+
   bool RecvPGMPStorageConstructor(PGMPStorageParent* actor) override;
   PGMPStorageParent* AllocPGMPStorageParent() override;
   bool DeallocPGMPStorageParent(PGMPStorageParent* aActor) override;
