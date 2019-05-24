@@ -84,3 +84,26 @@ Important when editing/adding code:
     ```
 3. Comment your code where prudent! Documenting what you're doing, especially in a complex piece of code, is very important to keep it easy to debug.
 4. Try not to write "as compact as possible" source code. Many languages have facilities to write very compact source code by gluing a lot of statements together on single lines, but you should avoid this to keep it readable. Other people than yourself will be looking at and trying to understand your code, and it's important to keep proper paragraphing, whitespace and above all logical names for variables and functions.
+
+## Commit Message Style
+
+With rare exception, it is advisable to use the following style for commit messages. This ensures proper tracking and linking of commits to issues.
+
+### Commits with existing issue
+- Single Commit: `Issue #number - Cited issue title or present tense action based on issue title`
+  - *`Issue #1083 - Deprecate FUEL extension helper javascript library`*
+- Multiple Commits: `Issue #number - Cited issue title - Part Number: Specific changes in this commit`
+  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 1: Remove files`*
+  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 2: Build system, Installer/Packaging`*
+  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 3: nsUpdateService.js, updater.cpp, nsUpdateDriver.cpp`*
+  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 4: Remove superfluous brackets in nsUpdateService.js and updater.cpp`*
+
+### Commits with no issue
+
+Sometimes developers with direct push access will commit without any issue being created. If this apples to you then you should, where applicable, put the application or component you are working on in square brackets in all caps in place of where one would place the Issue Number. Multi-part commits should use the `Part Number:` form as above, sans Issue Number of course.
+
+- `[COMPONENT] Description of what is being changed`
+  - *`[TychoAM] Give the second <hbox> an ID so it can be targeted in extensions.xul`*
+  - *`[PALEMOON] Use generic application icon for external applications in about:feeds`*
+
+This is by no means required and isn't strictly enforced. However, we prefer that issues are created for code changes that aren't trival, push access or not.
