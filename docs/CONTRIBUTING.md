@@ -109,7 +109,7 @@ Sometimes developers with direct push access will commit without an issue being 
 
 - `[COMPONENT] Description of what is being changed`
   - *`[TychoAM] Give the second <hbox> an ID so it can be targeted in extensions.xul`*
-  - *`[PaleMoon] Use generic application icon for external applications in about:feeds`*
+  - *`[Pale Moon] Use generic application icon for external applications in about:feeds`*
 
 Multi-part changes by definition are not trival and should have a corresponding issue.
 
