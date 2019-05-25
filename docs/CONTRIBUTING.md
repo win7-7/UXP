@@ -90,20 +90,38 @@ Important when editing/adding code:
 With rare exception, it is advisable to use the following style for commit messages. This ensures proper tracking and linking of commits to issues.
 
 ### Commits with existing issue
-- Single Commit: `Issue #number - Cited issue title or present tense action based on issue title`
+This would directly apply to anyone making a pull request.
+
+- Single Commit: `Issue #number - Cited issue title or appropriate description of direct changes`
   - *`Issue #1083 - Deprecate FUEL extension helper javascript library`*
-- Multiple Commits: `Issue #number - Cited issue title - Part Number: Specific changes in this commit`
-  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 1: Remove files`*
-  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 2: Build system, Installer/Packaging`*
-  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 3: nsUpdateService.js, updater.cpp, nsUpdateDriver.cpp`*
-  - *`Issue #492 - Bathe the Windows Maintenance Service.. IN ACID - Part 4: Remove superfluous brackets in nsUpdateService.js and updater.cpp`*
+- Multiple Commits: `Issue #number - Part Number: Appropriate description of direct changes`
+  - *`Issue #492 - Part 1: Remove files`*
+  - *`Issue #492 - Part 2: Build system, Installer/Packaging`*
+  - *`Issue #492 - Part 3: nsUpdateService.js, updater.cpp, nsUpdateDriver.cpp`*
+  - *`Issue #492 - Part 4: Remove superfluous brackets in nsUpdateService.js and updater.cpp`*
+
+An exception exists for multi-part commits where the issue is anticipated or end up to be long term such as "Stop using unified compilation of sources". In these instances the multi-part form is not required.
 
 ### Commits with no issue
 
-Sometimes developers with direct push access will commit without any issue being created. If this apples to you then you should, where applicable, put the application or component you are working on in square brackets in all caps in place of where one would place the Issue Number. Multi-part commits should use the `Part Number:` form as above, sans Issue Number of course.
+Sometimes developers with direct push access will commit without any issue being created. If this apples to you then you should, where applicable, put the application, component, or lib you are working on in square brackets in place of where one would place the Issue Number in the above form.
 
 - `[COMPONENT] Description of what is being changed`
   - *`[TychoAM] Give the second <hbox> an ID so it can be targeted in extensions.xul`*
-  - *`[PALEMOON] Use generic application icon for external applications in about:feeds`*
+  - *`[PaleMoon] Use generic application icon for external applications in about:feeds`*
 
-This is by no means required and isn't strictly enforced. However, we prefer that issues are created for code changes that aren't trival, push access or not.
+Multi-part changes by definition are not trival and thus should have an attached.
+
+### Additional information in commit messages
+
+If you wish to include supplimentary information such as a longer description, caveats, references to specific Mozilla bug numbers, or links to forum post you should add seperate it from the main commit message by a blank line.
+
+*Example: (This is also an example of the long term multi-part exception)*
+```
+Issue #80 - Stop building /accessible unified and fix deprot
+
+Note: excludes changes to Mac-specific code because I can't build
+for OS X to check and fix deprot there.
+```
+
+In general, if you have a question about commit message form or content, please ask.
