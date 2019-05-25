@@ -92,15 +92,15 @@ With rare exception, it is advisable to use the following style for commit messa
 ### Commits with existing issue
 This would directly apply to anyone making a pull request.
 
-- Single Commit: `Issue #number - Cited issue title or appropriate description of direct changes`
+- Single Commit: `Issue #xxx - Cited issue title or appropriate direct description of changes`
   - *`Issue #1083 - Deprecate FUEL extension helper javascript library`*
-- Multiple Commits: `Issue #number - Part Number: Appropriate description of direct changes`
+- Multi-Part Commits: `Issue #xxx - Part Number: Appropriate direct description of changes`
   - *`Issue #492 - Part 1: Remove files`*
   - *`Issue #492 - Part 2: Build system, Installer/Packaging`*
   - *`Issue #492 - Part 3: nsUpdateService.js, updater.cpp, nsUpdateDriver.cpp`*
   - *`Issue #492 - Part 4: Remove superfluous brackets in nsUpdateService.js and updater.cpp`*
 
-An exception exists for multi-part commits where the issue is anticipated or end up to be long term such as "Stop using unified compilation of sources". In these instances the multi-part form is not required.
+An exception exists for multi-part commits where the issue is anticipated or ends up being long term such as "Stop using unified compilation of sources". In these instances the multi-part form is not required.
 
 ### Commits with no issue
 
@@ -110,13 +110,13 @@ Sometimes developers with direct push access will commit without any issue being
   - *`[TychoAM] Give the second <hbox> an ID so it can be targeted in extensions.xul`*
   - *`[PaleMoon] Use generic application icon for external applications in about:feeds`*
 
-Multi-part changes by definition are not trival and thus should have an attached.
+Multi-part changes by definition are not trival and thus should have a corresponding issue.
 
 ### Additional information in commit messages
 
-If you wish to include supplimentary information such as a longer description, caveats, references to specific Mozilla bug numbers, or links to forum post you should add seperate it from the main commit message by a blank line.
+It may be benefical to include supplementary information such as a longer description, caveats, references to specific Mozilla bug numbers, links to forum posts or other such references. If you do add such information, you should seperate it from the main commit message by a blank line.
 
-*Example: (This is also an example of the long term multi-part exception)*
+*Example: (This happens to also be an example of the long term multi-part exception)*
 ```
 Issue #80 - Stop building /accessible unified and fix deprot
 
