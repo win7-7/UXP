@@ -90,6 +90,7 @@ Important when editing/adding code:
 With rare exception, it is advisable to use the following style for commit messages. This ensures proper tracking and linking of commits to issues.
 
 ### Commits with existing issue
+
 This would directly apply to anyone making a pull request.
 
 - Single Commit: `Issue #xxx - Cited issue title or appropriate direct description of changes`
@@ -104,17 +105,17 @@ An exception exists for multi-part commits where the issue is anticipated or end
 
 ### Commits with no issue
 
-Sometimes developers with direct push access will commit without any issue being created. If this apples to you then you should, where applicable, put the application, component, or lib you are working on in square brackets in place of where one would place the Issue Number in the above form.
+Sometimes developers with direct push access will commit without an issue being created. You should, where applicable, prefix the commit message with the application, component, or lib you are working on in square brackets.
 
 - `[COMPONENT] Description of what is being changed`
   - *`[TychoAM] Give the second <hbox> an ID so it can be targeted in extensions.xul`*
   - *`[PaleMoon] Use generic application icon for external applications in about:feeds`*
 
-Multi-part changes by definition are not trival and thus should have a corresponding issue.
+Multi-part changes by definition are not trival and should have a corresponding issue.
 
 ### Additional information in commit messages
 
-It may be benefical to include supplementary information such as a longer description, caveats, references to specific Mozilla bug numbers, links to forum posts or other such references. If you do add such information, you should seperate it from the main commit message by a blank line.
+It may be benefical to include supplementary information such as a longer description, caveats, specific Mozilla bug numbers, links to forum posts or other such references. If you do add additional information, you should seperate it from the main commit message by a blank line.
 
 *Example: (This happens to also be an example of the long term multi-part exception)*
 ```
