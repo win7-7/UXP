@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2009-2010 Mozilla Foundation
- * Copyright (c) 2019 Moonchild Productions
+ * Copyright (c) 2018-2020 Moonchild Productions
+ * Copyright (c) 2020 Binary Outcast
  *
  * Permission is hereby granted, free of charge, to any person obtaining a 
  * copy of this software and associated documentation files (the "Software"), 
@@ -21,6 +22,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * THIS IS A GENERATED FILE. PLEASE DO NOT EDIT.
+ * Please edit StateSnapshot.java instead and regenerate.
+ */
+
 #ifndef nsHtml5StateSnapshot_h
 #define nsHtml5StateSnapshot_h
 
@@ -38,15 +44,16 @@
 #include "nsIUnicodeDecoder.h"
 #include "nsHtml5Macros.h"
 #include "nsIContentHandle.h"
+#include "nsHtml5Portability.h"
+#include "nsHtml5ContentCreatorFunction.h"
 
 class nsHtml5StreamParser;
 
+class nsHtml5AttributeName;
+class nsHtml5ElementName;
 class nsHtml5Tokenizer;
 class nsHtml5TreeBuilder;
 class nsHtml5MetaScanner;
-class nsHtml5AttributeName;
-class nsHtml5ElementName;
-class nsHtml5HtmlAttributes;
 class nsHtml5UTF16Buffer;
 class nsHtml5Portability;
 
@@ -85,8 +92,6 @@ class nsHtml5StateSnapshot : public nsAHtml5TreeBuilderState
     static void initializeStatics();
     static void releaseStatics();
 };
-
-
 
 #endif
 
