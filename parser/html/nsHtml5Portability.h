@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2008-2015 Mozilla Foundation
- * Copyright (c) 2019 Moonchild Productions
+ * Copyright (c) 2018-2020 Moonchild Productions
+ * Copyright (c) 2020 Binary Outcast
  *
  * Permission is hereby granted, free of charge, to any person obtaining a 
  * copy of this software and associated documentation files (the "Software"), 
@@ -21,6 +22,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * THIS IS A GENERATED FILE. PLEASE DO NOT EDIT.
+ * Please edit Portability.java instead and regenerate.
+ */
+
 #ifndef nsHtml5Portability_h
 #define nsHtml5Portability_h
 
@@ -38,15 +44,15 @@
 #include "nsIUnicodeDecoder.h"
 #include "nsHtml5Macros.h"
 #include "nsIContentHandle.h"
+#include "nsHtml5ContentCreatorFunction.h"
 
 class nsHtml5StreamParser;
 
+class nsHtml5AttributeName;
+class nsHtml5ElementName;
 class nsHtml5Tokenizer;
 class nsHtml5TreeBuilder;
 class nsHtml5MetaScanner;
-class nsHtml5AttributeName;
-class nsHtml5ElementName;
-class nsHtml5HtmlAttributes;
 class nsHtml5UTF16Buffer;
 class nsHtml5StateSnapshot;
 
@@ -55,31 +61,21 @@ class nsHtml5Portability
 {
   public:
     static nsIAtom* newLocalNameFromBuffer(char16_t* buf, int32_t offset, int32_t length, nsHtml5AtomTable* interner);
-    static nsHtml5String newStringFromBuffer(char16_t* buf,
-                                             int32_t offset,
-                                             int32_t length,
-                                             nsHtml5TreeBuilder* treeBuilder);
+    static nsHtml5String newStringFromBuffer(char16_t* buf, int32_t offset, int32_t length, nsHtml5TreeBuilder* treeBuilder);
     static nsHtml5String newEmptyString();
-	static nsHtml5String newStringFromLiteral(const char* literal);
-	static nsHtml5String newStringFromString(nsHtml5String string);
+    static nsHtml5String newStringFromLiteral(const char* literal);
+    static nsHtml5String newStringFromString(nsHtml5String string);
     static jArray<char16_t,int32_t> newCharArrayFromLocal(nsIAtom* local);
-    static jArray<char16_t, int32_t> newCharArrayFromString(
-      nsHtml5String string);
+    static jArray<char16_t,int32_t> newCharArrayFromString(nsHtml5String string);
     static nsIAtom* newLocalFromLocal(nsIAtom* local, nsHtml5AtomTable* interner);
     static bool localEqualsBuffer(nsIAtom* local, char16_t* buf, int32_t offset, int32_t length);
-    static bool lowerCaseLiteralIsPrefixOfIgnoreAsciiCaseString(
-      const char* lowerCaseLiteral,
-      nsHtml5String string);
-    static bool lowerCaseLiteralEqualsIgnoreAsciiCaseString(
-      const char* lowerCaseLiteral,
-      nsHtml5String string);
+    static bool lowerCaseLiteralIsPrefixOfIgnoreAsciiCaseString(const char* lowerCaseLiteral, nsHtml5String string);
+    static bool lowerCaseLiteralEqualsIgnoreAsciiCaseString(const char* lowerCaseLiteral, nsHtml5String string);
     static bool literalEqualsString(const char* literal, nsHtml5String string);
     static bool stringEqualsString(nsHtml5String one, nsHtml5String other);
     static void initializeStatics();
     static void releaseStatics();
 };
-
-
 
 #endif
 

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2008-2010 Mozilla Foundation
- * Copyright (c) 2019 Moonchild Productions
+ * Copyright (c) 2018-2020 Moonchild Productions
+ * Copyright (c) 2020 Binary Outcast
  *
  * Permission is hereby granted, free of charge, to any person obtaining a 
  * copy of this software and associated documentation files (the "Software"), 
@@ -21,6 +22,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * THIS IS A GENERATED FILE. PLEASE DO NOT EDIT.
+ * Please edit UTF16Buffer.java instead and regenerate.
+ */
+
 #define nsHtml5UTF16Buffer_cpp__
 
 #include "nsIAtom.h"
@@ -37,13 +43,14 @@
 #include "nsIUnicodeDecoder.h"
 #include "nsHtml5Macros.h"
 #include "nsIContentHandle.h"
+#include "nsHtml5Portability.h"
+#include "nsHtml5ContentCreatorFunction.h"
 
+#include "nsHtml5AttributeName.h"
+#include "nsHtml5ElementName.h"
 #include "nsHtml5Tokenizer.h"
 #include "nsHtml5TreeBuilder.h"
 #include "nsHtml5MetaScanner.h"
-#include "nsHtml5AttributeName.h"
-#include "nsHtml5ElementName.h"
-#include "nsHtml5HtmlAttributes.h"
 #include "nsHtml5StackNode.h"
 #include "nsHtml5StateSnapshot.h"
 #include "nsHtml5Portability.h"
