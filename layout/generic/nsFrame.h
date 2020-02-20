@@ -562,6 +562,8 @@ public:
                       const nsDisplayListSet& aLists);
 
   /**
+  
+  
    * Adjust the given parent frame to the right style context parent frame for
    * the child, given the pseudo-type of the prospective child.  This handles
    * things like walking out of table pseudos and so forth.
