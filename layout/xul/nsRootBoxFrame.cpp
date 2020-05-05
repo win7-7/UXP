@@ -8,6 +8,7 @@
 #include "nsGkAtoms.h"
 #include "nsIPresShell.h"
 #include "nsBoxFrame.h"
+#include "nsDisplayList.h"
 #include "nsStackLayout.h"
 #include "nsIRootBox.h"
 #include "nsIContent.h"
